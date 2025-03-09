@@ -30,15 +30,27 @@ t= 0
 while True:
     start_time = time.time()
 
-    # Mode manuel
-    if p.readUserDebugParameter(physics_world.interface.manual_button_id) % 2 == 0:
-        #print("Manual mode")
-        physics_world.bot.manual_move(physics_world.interface)
-
     # Mode auto
-    if p.readUserDebugParameter(physics_world.interface.auto_button_id) % 2 == 0:
-        #print("Auto mode")
+    if p.readUserDebugParameter(physics_world.interface.auto_button_id) % 2 == 0 and physics_world.interface.current_mode == 0 :
+        print("Start Auto mode")
+        physics_world.interface.init_auto()
+    elif p.readUserDebugParameter(physics_world.interface.auto_button_id) % 2 == 1 and physics_world.interface.current_mode == 1 :
+        print("End Auto mode")
+        physics_world.interface.end_auto()
+    # Mode manuel
+    elif p.readUserDebugParameter(physics_world.interface.manual_button_id) % 2 == 0 and physics_world.interface.current_mode == 0 :
+        print("Start Manual mode")
+        physics_world.interface.init_manual()
+    elif p.readUserDebugParameter(physics_world.interface.manual_button_id) % 2 == 1 and physics_world.interface.current_mode == 2 :
+        print("End Manual mode")
+        physics_world.interface.end_manual()
+    
+
+    # Move mode
+    if physics_world.interface.current_mode == 1 :
         physics_world.bot.autonomous_move(t)
+    if physics_world.interface.current_mode == 2 :
+        physics_world.bot.manual_move(physics_world.interface)
     
     # Mise à jour des positions des moteurs
     for joint_index, position in enumerate(physics_world.bot.q):
