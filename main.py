@@ -30,10 +30,13 @@ t= 0
 while True:
     start_time = time.time()
 
+
+
     # Mode auto
     if p.readUserDebugParameter(physics_world.interface.auto_button_id) % 2 == 0 and physics_world.interface.current_mode == 0 :
         print("Start Auto mode")
         physics_world.interface.init_auto()
+        physics_world.bot.init_auto_pos()
     elif p.readUserDebugParameter(physics_world.interface.auto_button_id) % 2 == 1 and physics_world.interface.current_mode == 1 :
         print("End Auto mode")
         physics_world.interface.end_auto()
@@ -49,6 +52,9 @@ while True:
     # Move mode
     if physics_world.interface.current_mode == 1 :
         physics_world.bot.autonomous_move(t)
+        #keys = p.getKeyboardEvents()
+        #if 32 in keys and keys[32] & p.KEY_WAS_TRIGGERED:
+            
     if physics_world.interface.current_mode == 2 :
         physics_world.bot.manual_move(physics_world.interface)
     

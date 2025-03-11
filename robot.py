@@ -1,5 +1,6 @@
 import pybullet as p
 import numpy as np
+import math
 
 from interface import Interface
 
@@ -42,43 +43,55 @@ class Robot:
     #########################             Autonomous Mode            ###########################
     ############################################################################################
 
-    def autonomous_move(self, t, 
-                        A_hip=0.5, A_knee=0.5, 
-                        omega=2*np.pi, delta=np.pi/4):
-        """
-        Parametres :
-        t      : temps (float)
-        A_hip  : amplitude pour l'articulation de hanche
-        A_knee : amplitude pour l'articulation de genou
-        omega  : fréquence angulaire du cycle de marche
-        delta  : déphasage entre hanche et genou pour une même patte
+    def init_auto_pos(self):
+        self.q[1] = -np.pi/6
+        self.q[3] = 0
+        
+        self.q[13] = -np.pi/6
+        self.q[15] = 0
+        
+        self.q[9] = -np.pi/6
+        self.q[11] = 0
+        
+        self.q[5] = -np.pi/6
+        self.q[7] = 0
 
-        Return :
-        numpy.array de 8 angles (en radians)
+
+
+    def autonomous_move(self, t, 
+                        A_hip=0.785398, A_knee=0.2, 
+                        omega=2*np.pi, delta=np.pi/2, 
+                        q_offset=1, phase_offset=np.pi/6):
+
         """
-        # Déphasages pour chaque patte.
-        # Ici, pour un trot, on oppose les pattes diagonales :
-        # Patte avant gauche (AG) et patte arrière droite (ARD) : phase 0
-        # Patte avant droite (AD) et patte arrière gauche (ARG) : phase pi
+        Paramètres corrigés pour un trot synchrone :
+        t        : temps
+        A_hip    : amplitude hanche (mouvement avant/arrière)
+        A_knee   : amplitude genou (négatif pour la levée de patte)
+        omega    : pulsation (2π = 1 Hz)
+        delta    : déphasage hanche/genou (π/2 pour lever après la poussée)
+        q_offset : écartement de base des hanches pour éviter un chevauchement"
+        """
+    
+        
+        # Configuration des phases pour un TROT (diagonales synchronisées)
         phases = {
-            'AG': 0,
-            'AD': np.pi,
-            'ARG': np.pi,
-            'ARD': 0
+            'AG': 0,          # Avant Gauche phase 0
+            'ARD': phase_offset,         # Arrière Droite phase 0 (diagonale synchrone)
+            'AD': np.pi + phase_offset,      # Avant Droite phase π
+            'ARG': np.pi + phase_offset      # Arrière Gauche phase π
         }
-        
-        # Initialisation du vecteur de 8 joints
-        q = np.zeros(8)
-        
-        # Calcul pour chaque patte
-        self.q[1] = A_hip * np.sin(omega * t + phases['AG'])
-        self.q[3] = A_knee * np.sin(omega * t + phases['AG'] + delta)
-        
-        self.q[13] = A_hip * np.sin(omega * t + phases['AD'])
-        self.q[15] = A_knee * np.sin(omega * t + phases['AD'] + delta)
-        
-        self.q[9] = A_hip * np.sin(omega * t + phases['ARG'])
-        self.q[11] = A_knee * np.sin(omega * t + phases['ARG'] + delta)
-        
-        self.q[5] = A_hip * np.sin(omega * t + phases['ARD'])
-        self.q[7] = A_knee * np.sin(omega * t + phases['ARD'] + delta)
+
+        # Pattes Avant Gauche (AG) et Arrière Droite (ARD)
+        self.q[1] = -q_offset + A_hip * np.sin(omega * t + phases['AG'])   # Hanche AG
+        self.q[3] = A_knee * np.sin(omega * t + phases['AG'] + delta)     # Genou AG
+        self.q[5] = -q_offset + A_hip * np.sin(omega * t + phases['ARD'])  # Hanche ARD
+        self.q[7] = A_knee * np.sin(omega * t + phases['ARD'] + delta)    # Genou ARD
+
+        # Pattes Avant Droite (AD) et Arrière Gauche (ARG)
+        self.q[13] = -q_offset + A_hip * np.sin(omega * t + phases['AD'])  # Hanche AD
+        self.q[15] = A_knee * np.sin(omega * t + phases['AD'] + delta)     # Genou AD
+        self.q[9] = -q_offset + A_hip * np.sin(omega * t + phases['ARG'])  # Hanche ARG
+        self.q[11] = A_knee * np.sin(omega * t + phases['ARG'] + delta)    # Genou ARG
+
+        return self.q
