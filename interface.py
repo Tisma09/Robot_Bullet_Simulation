@@ -37,17 +37,9 @@ class Interface:
     def init_manual(self):
         self.current_mode = 2
 
-        self.param_AD_H = p.addUserDebugParameter(" Joint AD_H Position", -2.356194, 0.785398, 0.0, physicsClientId=self.world_parent_id)
-        self.param_AD_V = p.addUserDebugParameter(" Joint AD_V Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
-
-        self.param_AG_H = p.addUserDebugParameter(" Joint AG_H Position", -2.356194, 0.785398, 0.0, physicsClientId=self.world_parent_id)
-        self.param_AG_V = p.addUserDebugParameter(" Joint AG_V Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
-
-        self.param_DD_H = p.addUserDebugParameter(" Joint DD_H Position", -2.356194, 0.785398, 0.0, physicsClientId=self.world_parent_id)
-        self.param_DD_V = p.addUserDebugParameter(" Joint DD_V Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
-
-        self.param_DG_H = p.addUserDebugParameter(" Joint DG_H Position", -2.356194, 0.785398, 0.0, physicsClientId=self.world_parent_id)
-        self.param_DG_V = p.addUserDebugParameter(" Joint DG_V Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
+        self.param_ARR_H = p.addUserDebugParameter(" Joint ARR_H Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
+        self.param_ARR_V1 = p.addUserDebugParameter(" Joint ARR_V1 Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
+        self.param_ARR_V2 = p.addUserDebugParameter(" Joint ARR_V2 Position", -2.35619, 0.785398, 0.0, physicsClientId=self.world_parent_id)
 
     def end_manual(self):
         self.current_mode = 0

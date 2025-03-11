@@ -11,7 +11,7 @@ from world_simulate import WorldSimulate
 ################################################################################################
 
 
-physics_world = WorldSimulate(p.GUI, "plane.urdf", "Robot_mesh_urdf/RobotSpider_With_Col.urdf")
+physics_world = WorldSimulate(p.GUI, "plane.urdf", "Proto_mesh_urdf/Assamblage_UnLink.urdf")
 
 p.resetDebugVisualizerCamera(
     cameraDistance=0.4,             # Zoom (augmenter pour dézoomer)
