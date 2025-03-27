@@ -37,9 +37,18 @@ class Interface:
     def init_manual(self):
         self.current_mode = 2
 
-        self.param_ARR_H = p.addUserDebugParameter(" Joint ARR_H Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
-        self.param_ARR_V1 = p.addUserDebugParameter(" Joint ARR_V1 Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
-        self.param_ARR_V2 = p.addUserDebugParameter(" Joint ARR_V2 Position", -2.35619, 0.785398, 0.0, physicsClientId=self.world_parent_id)
+        self.param_ARD_H = p.addUserDebugParameter(" Joint ARD_H Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
+        self.param_ARD_V1 = p.addUserDebugParameter(" Joint ARD_V1 Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
+        self.param_ARD_V2 = p.addUserDebugParameter(" Joint ARD_V2 Position", -2.35619, 0.785398, 0.0, physicsClientId=self.world_parent_id)
+        self.param_AVG_H = p.addUserDebugParameter(" Joint AVG_H Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
+        self.param_AVG_V1 = p.addUserDebugParameter(" Joint AVG_V1 Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
+        self.param_AVG_V2 = p.addUserDebugParameter(" Joint AVG_V2 Position", -2.35619, 0.785398, 0.0, physicsClientId=self.world_parent_id)
+        self.param_AVD_H = p.addUserDebugParameter(" Joint AVD_H Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
+        self.param_AVD_V1 = p.addUserDebugParameter(" Joint AVD_V1 Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
+        self.param_AVD_V2 = p.addUserDebugParameter(" Joint AVD_V2 Position", -2.35619, 0.785398, 0.0, physicsClientId=self.world_parent_id)
+        self.param_ARG_H = p.addUserDebugParameter(" Joint ARG_H Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
+        self.param_ARG_V1 = p.addUserDebugParameter(" Joint ARG_V1 Position", -1.570796, 1.570796, 0.0, physicsClientId=self.world_parent_id)
+        self.param_ARG_V2 = p.addUserDebugParameter(" Joint ARG_V2 Position", -2.35619, 0.785398, 0.0, physicsClientId=self.world_parent_id)
 
     def end_manual(self):
         self.current_mode = 0

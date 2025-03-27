@@ -1,6 +1,7 @@
 import time
 import keyboard
 import pybullet as p
+import numpy as np
 
 from world_simulate import WorldSimulate 
 
@@ -10,8 +11,8 @@ from world_simulate import WorldSimulate
 #########################               Main                    ################################
 ################################################################################################
 
-
-physics_world = WorldSimulate(p.GUI, "plane.urdf", "Proto_mesh_urdf/Assamblage_UnLink.urdf")
+debug = False
+physics_world = WorldSimulate(p.GUI, "plane.urdf", "Robot_mesh_urdf_V2/RobotProto_With_Col.urdf")
 
 p.resetDebugVisualizerCamera(
     cameraDistance=0.4,             # Zoom (augmenter pour dézoomer)
@@ -20,16 +21,18 @@ p.resetDebugVisualizerCamera(
     cameraTargetPosition=[0, 0, 0], # Point que la caméra vise (centre du robot)
     physicsClientId=physics_world.client_id
 )
-# DEBUG
-#p.configureDebugVisualizer(p.COV_ENABLE_WIREFRAME, 1)
 
+if debug :
+    p.configureDebugVisualizer(p.COV_ENABLE_WIREFRAME, 1)
+    joint_line_ids = {} 
 
-T = 1.0 / 240.0  # Temps cible pour un pas de simulation à 240 Hz
+T = 1.0 / 240.0
 t= 0
-
 while True:
     start_time = time.time()
 
+    if debug:
+        physics_world.bot.update_joint_axes(joint_line_ids)
 
 
     # Mode auto
@@ -52,8 +55,6 @@ while True:
     # Move mode
     if physics_world.interface.current_mode == 1 :
         physics_world.bot.autonomous_move(t)
-        #keys = p.getKeyboardEvents()
-        #if 32 in keys and keys[32] & p.KEY_WAS_TRIGGERED:
             
     if physics_world.interface.current_mode == 2 :
         physics_world.bot.manual_move(physics_world.interface)
